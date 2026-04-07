@@ -1,0 +1,14 @@
+[
+{
+  "directory": "E:/C++/Project/MyTinySTL/build",
+  "command": "E:\\mingw-w64\\mingw64\\bin\\g++.exe  @CMakeFiles/MYTINSTL.dir/includes_CXX.rsp -g -o CMakeFiles\\MYTINSTL.dir\\src\\MyString.cpp.obj -c E:\\C++\\Project\\MyTinySTL\\src\\MyString.cpp",
+  "file": "E:/C++/Project/MyTinySTL/src/MyString.cpp",
+  "output": "CMakeFiles/MYTINSTL.dir/src/MyString.cpp.obj"
+},
+{
+  "directory": "E:/C++/Project/MyTinySTL/build",
+  "command": "E:\\mingw-w64\\mingw64\\bin\\g++.exe  @CMakeFiles/MYTINSTL.dir/includes_CXX.rsp -g -o CMakeFiles\\MYTINSTL.dir\\src\\main.cpp.obj -c E:\\C++\\Project\\MyTinySTL\\src\\main.cpp",
+  "file": "E:/C++/Project/MyTinySTL/src/main.cpp",
+  "output": "CMakeFiles/MYTINSTL.dir/src/main.cpp.obj"
+}
+]

@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake: Build Project",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build" // 注意：这里假设你的构建文件夹名字是 build
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc" // 核心配置：使用 GCC/Clang 的正则来提取错误路径
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true // 将其设为默认构建任务
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",     // 编译时总是显示终端
+                "focus": false,         // 不抢夺编辑器焦点
+                "panel": "shared",      // 共享同一个终端面板
+                "showReuseMessage": false, // 隐藏“终端将被重用”的提示，保持界面清爽
+                "clear": true           // 每次编译前清空上一次的输出
+            },
+            "detail": "使用 CMake 编译当前项目并解析报错信息"
+        }
+    ]
+}
