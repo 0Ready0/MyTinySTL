@@ -22,7 +22,8 @@ file(GLOB SRC_FILES
 # GLOB 匹配模式
 # ${PROJECT_SOURCE_DIR}/src/*.h 匹配项目源目录下的所有 .h 文件
 # ${PROJECT_SOURCE_DIR}/src/*.cpp 匹配项目源目录下的所有 .cpp 文件
-
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+# 设置二进制文件的输出路径
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILES})
 # 创建可执行文件目标，目标名是 CMAKE_PROJECT_NAME 的值（即 MYTINSTL）
 # 参数：

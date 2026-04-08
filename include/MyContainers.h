@@ -7,6 +7,7 @@ using namespace std;
 
 template<typename T>
 class MyContainers{
+public:
     MyContainers(){}
 
     virtual ~MyContainers(){}

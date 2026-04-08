@@ -9,8 +9,7 @@
 
 #include "MyContainers.h"
 
-class MyString : MyContainers
-{
+class MyString : public MyContainers<char>{
 private:
     char* m_char;
     size_t m_size;
