@@ -250,6 +250,85 @@ MyString& MyString::assign(int n,char ch){
         return *this;
     }
 }
+
+MyString& MyString::operator+(const char* s){
+    /**
+     * @brief 将char*字符串与当前字符串拼接
+     * 
+     * @param const char* s
+     * @return MyString& 
+     */
+    size_t s_len = strlen(s);
+    // 判空
+    if(s_len == 0) return *this;
+    // 判溢
+    if(s_len + m_size >= m_capacity){
+        char* temp_char = new char[m_size + 1];
+        std::copy(m_char, m_char + m_size, temp_char);
+        delete[] m_char;
+        m_capacity = s_len + m_size + 1;
+        m_char = new char[m_capacity];
+        std::copy(temp_char, temp_char + m_size, m_char);
+        delete[] temp_char;
+    }
+    std::copy(s, s + s_len, m_char + m_size);
+    m_size += s_len;
+    m_char[m_size] = '\0';
+    return *this;
+}
+
+MyString& MyString::operator+(const char ch){
+    /**
+     * @brief 将char 单字符 与当前字符串拼接
+     * 
+     * @param const char ch
+     * @return MyString& 
+     */
+
+    // 判空
+    if(ch == '\0') return *this;
+    // 判溢
+    if(m_size + 1 >= m_capacity){
+        char* temp_char = new char[m_size + 1];
+        std::copy(m_char, m_char + m_size, temp_char);
+        delete[] m_char;
+        m_capacity = m_size + 1;
+        m_char = new char[m_capacity];
+        std::copy(temp_char, temp_char + m_size, m_char);
+        delete[] temp_char;
+    }
+    m_char[m_size] = ch;
+    m_size += 1;
+    m_char[m_size] = '\0';
+    return *this;
+}
+
+MyString& MyString::operator+(const MyString& str){
+    /**
+     * @brief 将char*字符串与当前字符串拼接
+     * 
+     * @param const MyString& str
+     * @return MyString& 
+     */
+    size_t s_len = str.m_size;
+    // 判空
+    if(s_len == 0) return *this;
+    // 判溢
+    if(s_len + m_size >= m_capacity){
+        char* temp_char = new char[m_size + 1];
+        std::copy(m_char, m_char + m_size, temp_char);
+        delete[] m_char;
+        m_capacity = s_len + m_size + 1;
+        m_char = new char[m_capacity];
+        std::copy(temp_char, temp_char + m_size, m_char);
+        delete[] temp_char;
+    }
+    std::copy(str.m_char, str.m_char + s_len, m_char + m_size);
+    m_size += s_len;
+    m_char[m_size] = '\0';
+    return *this;
+}
+
 MyString::~MyString(){
     delete[] m_char;
 }

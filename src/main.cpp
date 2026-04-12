@@ -4,7 +4,7 @@
 #include "MyString.h"
 
 void testMyString(){
-    // ------------------------- 1. 构造 -----------------------------
+    cout << "------------------------- 1. 构造 -----------------------------" << endl;
     // 1.1默认构造
     MyString str1("hello String");
     cout << "1.1 MyString 默认构造:" << str1 << endl;
@@ -24,7 +24,7 @@ void testMyString(){
     cout << "1.4 采用字符串初始化:" << str4 << endl;
 
 
-    //  ------------------------- 2.assign赋值 -----------------------------
+    cout << "------------------------- 2.assign赋值 -----------------------------" <<endl;
     // 2.1 将char*类型字符串赋给当前字符串
     MyString str2_1;
     str2_1.MyString::assign("assign");
@@ -41,6 +41,22 @@ void testMyString(){
     MyString str2_4;
     str2_4.MyString::assign(5, '6');
     cout << "2.3 重复n个字符ch赋值：" << str2_4 << endl;
+
+    cout << "------------------------- 3.拼接 -----------------------------" << endl;
+    // 3.1 将char*类型字符串与当前字符串拼接
+    MyString str3_1("str3_1");
+    char ch3_1[] = "pinjie";
+    cout << "3.1 char* 类型字符串拼接：" << str3_1 + ch3_1 << endl;
+
+    // 3.2 将char类型 字符 与当前字符串拼接
+    MyString str3_2("str3_2");
+    char ch3_2 = '2';
+    cout << "3.2 char* 类型字符串拼接：" << str3_2 + ch3_2 << endl;
+
+    // 3.3 将MyString类型字符串与当前字符串拼接
+    MyString str3_3("str3_1");
+    MyString ch3_3 = "pinjie";
+    cout << "3.3 char* 类型字符串拼接：" << str3_3 + ch3_3 << endl;
 }
 int main(){
     // 设置控制台输出为 UTF-8

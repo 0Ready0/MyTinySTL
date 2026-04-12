@@ -45,6 +45,13 @@ public:
     // 把n个字符c赋给当前字符串
     MyString& assign(int n,char ch);
 
+    // 拼接操作
+    // 将char*类型字符串与当前字符串拼接
+    MyString& operator+(const char* s);
+    // 将char 字符与当前字符串拼接
+    MyString& operator+(const char ch);
+    // 将Mystring 类型字符串与当前字符串拼接
+    MyString& operator+(const MyString& str);
 
     // 析构函数
     ~MyString();
