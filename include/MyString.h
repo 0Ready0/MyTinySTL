@@ -52,6 +52,14 @@ public:
     MyString& operator+(const char ch);
     // 将Mystring 类型字符串与当前字符串拼接
     MyString& operator+(const MyString& str);
+    // 将char*类型字符串与当前字符串拼接
+    MyString& append(const char* s);
+    // 将char*类型字符串的前n个字符连接到当前字符串结尾
+    MyString& append(const char* s, int n);
+    // 将Mystring 类型字符串与当前字符串拼接
+    MyString& append(const MyString& str);
+    // 将Mystring类型字符串从pos开始的n个字符连接到字符串结尾
+    MyString& append(const MyString& str, int pos, int n);
 
     // 析构函数
     ~MyString();

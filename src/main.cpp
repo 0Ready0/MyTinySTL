@@ -57,6 +57,26 @@ void testMyString(){
     MyString str3_3("str3_1");
     MyString ch3_3 = "pinjie";
     cout << "3.3 char* 类型字符串拼接：" << str3_3 + ch3_3 << endl;
+
+    // 3.4 将char*类型字符串与当前字符串拼接
+    MyString str3_4("str3_4");
+    char ch3_4[] = "_append_";
+    cout << "3.4 char* 类型字符串拼接：" << str3_4.append(ch3_4) << endl;
+
+    // 3.5 将char*类型字符串与当前字符串拼接
+    MyString str3_5("str3_5");
+    char ch3_5[] = "_append_";
+    cout << "3.5 char* 类型字符串拼接(append)：" << str3_5.append(ch3_5, 7) << endl;
+
+    // 3.6 将MyString类型字符串与当前字符串拼接
+    MyString str3_6("str3_6");
+    MyString ch3_6 = "_append_";
+    cout << "3.6 char* 类型字符串拼接：" << str3_6.append(ch3_6) << endl;
+
+    // 3.7 将char*类型字符串与当前字符串拼接
+    MyString str3_7("str3_7");
+    char ch3_7[] = "_append_";
+    cout << "3.7 char* 类型字符串拼接(append)：" << str3_7.append(ch3_5, 1, 7) << endl;
 }
 int main(){
     // 设置控制台输出为 UTF-8

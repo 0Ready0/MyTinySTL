@@ -329,6 +329,82 @@ MyString& MyString::operator+(const MyString& str){
     return *this;
 }
 
+
+
+MyString& MyString::append(const char* s){
+    /**
+     * @brief 将char*类型字符串与当前字符串拼接
+     * @param const char* s
+     * @return MyString&
+     */
+
+    *this = *this + s;
+    return *this;
+}
+
+MyString& MyString::append(const char* s, int n){
+    /**
+     * @brief 将char*类型字符串的前n个字符连接到当前字符串结尾
+     * @param const char* s
+     * @param int n:前n个字符
+     * @return MyString&
+     */
+    size_t s_len = strlen(s);
+    if(s_len < 0) throw std::invalid_argument("MyString::append : str is empty string");
+    if(s_len < n) throw std::invalid_argument("MyString::append : length of str should be greater than n");
+    if(m_capacity < m_size + n){
+        char* temp_char = new char[m_size + 1];
+        std::copy(m_char, m_char + m_size, temp_char);
+        delete[] m_char;
+        m_capacity = n + m_size + 1;
+        m_char = new char[m_capacity];
+        std::copy(temp_char, temp_char + m_size, m_char);
+        delete[] temp_char;
+    }
+    std::copy(s, s + n, m_char + m_size);
+    m_size += n;
+    m_char[m_size] = '\0';
+    return *this;
+}
+
+MyString& MyString::append(const MyString& str){
+    /**
+     * @brief 将Mystring 类型字符串与当前字符串拼接
+     * @param const MyString& str
+     * @return MyString&
+     */
+    *this = *this + str;
+    return *this;
+}
+MyString& MyString::append(const MyString& str, int pos, int n){
+    /**
+     * @brief 将Mystring类型字符串从pos开始的n个字符连接到字符串结尾
+     * @param const MyString& str
+     * @param int pos 带拼接的起始位置
+     * @param int n   n个字符
+     * @return MyString&
+     */
+    size_t str_len = str.m_size;
+    if(str_len < 0) throw std::invalid_argument("MyString::append : str is empty string");
+    if(str_len < n) throw std::invalid_argument("MyString::append : length of str should be greater than n");
+    if(pos < 0) throw std::invalid_argument("MyString::append : pos is invalid");
+    if(pos + n > str_len) n = str_len - pos;
+    if(m_capacity < m_size + n){
+        char* temp_char = new char[m_size + 1];
+        std::copy(m_char, m_char + m_size, temp_char);
+        delete[] m_char;
+        m_capacity = n + m_size + 1;
+        m_char = new char[m_capacity];
+        std::copy(temp_char, temp_char + m_size, m_char);
+        delete[] temp_char;
+    }
+    std::copy(str.m_char + pos, str.m_char + pos + n, m_char + m_size);
+    m_size += n;
+    m_char[m_size] = '\0';
+    return *this;
+}
+
+
 MyString::~MyString(){
     delete[] m_char;
 }
