@@ -462,16 +462,16 @@ int MyString::RKMP(const MyString& str, int epos) const {
     int j = str.m_size - 1;   // 模式串指针
     int i = this->m_size - 1;   // 文本串指针
 
-    while(i >= epos){
-        if(this->m_char[i] == str.m_char[j]){
-            --i, --j;
-            if(j == -1) {
+    while(i >= epos){                               
+        if(this->m_char[i] == str.m_char[j]){               // 如果模式串指针和文本串指针相匹配 
+            --i, --j;                                       // 则向前移动
+            if(j == -1) {                                   // 如果模式串全部被查询到，返回
                 delete[] Rprefix;
-                return i;
+                return i + 1;
             }
         }
-        else if(j + 1 < str.m_size) j = Rprefix[j + 1];
-        else --i;
+        else if(j + 1 < str.m_size) j = Rprefix[j + 1];     // 如果当前j位置不位于最后一个，则正常回溯
+        else --i;                                           // 如果当前j位置位于最后一个，则i前移即可，无需回溯
     }
     delete[] Rprefix;
     return -1;
@@ -575,22 +575,46 @@ MyString MyString::reverse(){
 int MyString::rfind(const MyString& str, int pos) const{
     /**
      * @brief 查找str最后一次位置，从pos开始查找
-     * @param const char ch: char数组
+     * @param const MyString& str
      * @param int pos: 文本串查找起始位置
+     * @return int 返回查找位置，失败返回-1
      */
     return RKMP(str, pos);
 }
 // 查找s最后一次出现位置，从pos开始查找
 int MyString::rfind(const char* s, int pos) const{
-    return -1;
+    /**
+     * @brief 查找char* s最后一次出现位置，从pos开始查找
+     * @param const char* s: char数组
+     * @param int pos: 文本串查找起始位置
+     * @return int 返回查找位置，失败返回-1
+     */
+    MyString patt(s);
+    return RKMP(patt, pos);
+
 }
-//从pos查找s的前n个字符最后一次位置
+
 int MyString::rfind(const char* s, int pos, int n) const{
-    return -1;
+    /**
+     * @brief 从pos查找char* s的前n个字符最后一次位置
+     * @param const char* s: char数组
+     * @param int pos: 文本串查找起始位置
+     * @param int n: s字符串的前n个字符
+     * @return int 返回查找位置，失败返回-1
+     */
+    MyString patt(s, n);
+    return RKMP(patt, pos);
 }
-// 查找字符c最后一次出现位置
-int MyString::rfind(const char c, int pos) const{
-    return -1;
+int MyString::rfind(const char ch, int pos) const{
+    /**
+     * @brief 查找字符c最后一次出现位置
+     * @param const char* s: char数组
+     * @param int pos: 文本串查找起始位置
+     * @param int n: s字符串的前n个字符
+     * @return int 返回查找位置，失败返回-1
+     */
+    MyString patt(1, ch);
+    return RKMP(patt, pos);
 }
 
 MyString::~MyString(){

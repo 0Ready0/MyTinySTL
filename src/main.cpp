@@ -96,7 +96,7 @@ void testMyString(){
     char* substr4_3 = new char[]{"aafaaf"};
     int n4_3 = 3;
     int pos4_3 = 0;
-    cout << "4.3 查找" << str4_3 << "起始位置为" << pos4_3 << "的子串" << substr4_3 << "的位置为：" << str4_3.find(substr4_3, pos4_3, n4_3) << endl;
+    cout << "4.3 查找" << str4_3 << "起始位置为" << pos4_3 << "的子串" << substr4_3 << "前" << n4_3 << "的位置为：" << str4_3.find(substr4_3, pos4_3, n4_3) << endl;
 
     // 4.4 查找字符c第一次出现位置
     MyString str4_4("aabaabaaf");
@@ -109,6 +109,25 @@ void testMyString(){
     MyString substr4_5("aabaab");
     int pos4_5 = 0;
     cout << "4.5 查找" << str4_5 << "起始位置为" << pos4_5 << "的子串" << substr4_5 << "最后一次出现的位置为：" << str4_5.rfind(substr4_5, pos4_5) << endl;
+
+    // 4.6 查找char*最后一次出现位置，从pos开始查找
+    MyString str4_6("aabaabaaf");
+    char* substr4_6 = new char[]{"aabaaf"};
+    int pos4_6 = 0;
+    cout << "4.6 查找" << str4_6 << "起始位置为" << pos4_6 << "的子串" << substr4_6 << "最后一次出现的位置为：" << str4_6.rfind(substr4_6, pos4_6) << endl;
+
+    // 4.7 从pos位置查找s的前n个字符最后一次位置
+    MyString str4_7("aabaabaaf");
+    char* substr4_7 = new char[]{"aafaaf"};
+    int n4_7 = 3;
+    int pos4_7 = 0;
+    cout << "4.7 查找" << str4_7 << "起始位置为" << pos4_7 << "的子串" << substr4_7 << "前" << n4_7 << "个字符的最后一次出现的位置为：" << str4_7.rfind(substr4_7, pos4_7, n4_7) << endl;
+
+    // 4.4 查找字符c最后一次出现位置
+    MyString str4_8("aabaabaaf");
+    char substr4_8 = 'g';
+    int pos4_8 = 0;
+    cout << "4.8 查找" << str4_8 << "起始位置为" << pos4_8 << "的子串" << substr4_8 << "最后一次出现的位置为：" << str4_8.rfind(substr4_8, pos4_8) << endl;
 }
 int main(){
     // 设置控制台输出为 UTF-8
