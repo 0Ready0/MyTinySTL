@@ -128,6 +128,21 @@ void testMyString(){
     char substr4_8 = 'g';
     int pos4_8 = 0;
     cout << "4.8 查找" << str4_8 << "起始位置为" << pos4_8 << "的子串" << substr4_8 << "最后一次出现的位置为：" << str4_8.rfind(substr4_8, pos4_8) << endl;
+
+    cout << "------------------------- 5.替换 -----------------------------" << endl;
+    // 5.1 替换从pos开始n个字符为字符串str
+    MyString str5_1("abcdefg");
+    MyString substr5_1("5_1");
+    int pos5_1 = 3;
+    int n5_1 = 3;
+    cout << "5.1 替换 将" << str5_1 << "起始于"<< pos5_1 << "的" << n5_1 << "字符，替换为" << substr5_1 <<"得到：" << str5_1.replace(pos5_1, n5_1, substr5_1) << endl;
+
+    // 5.2 替换从pos开始的n个字符为字符串s
+    MyString str5_2("abcdefg");
+    char* substr5_2 = new char[]{"5_2"};
+    int pos5_2 = 3;
+    int n5_2 = 3;
+    cout << "5.2 替换 将" << str5_2 << "起始于"<< pos5_2 << "的" << n5_2 << "字符，替换为" << substr5_2 <<"得到：" << str5_2.replace(pos5_2, n5_2, substr5_2) << endl;
 }
 int main(){
     // 设置控制台输出为 UTF-8

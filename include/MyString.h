@@ -93,6 +93,13 @@ public:
 
     // 翻转
     MyString reverse();
+
+    // 替换
+    // 替换从pos开始n个字符为字符串str
+    MyString& replace(int pos, int n, const MyString& str); 
+    // 替换从pos开始的n个字符为字符串s
+    MyString& replace(int pos, int n, const char* s); 
+
     // 析构函数
     ~MyString();
 };

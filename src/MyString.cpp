@@ -617,6 +617,44 @@ int MyString::rfind(const char ch, int pos) const{
     return RKMP(patt, pos);
 }
 
+MyString& MyString::replace(int pos, int n, const MyString& str){
+    /**
+     * @brief 替换从pos开始n个字符为字符串str
+     * @param int pos: 代替换源串的起始位置
+     * @param int n:代替换的字符个数
+     * @param const MyString& str: 代替换串
+     * @return MyString&
+     */
+    if(pos < 0 || n > str.m_size) std::invalid_argument("parameter pos and n is error");
+    if(str.m_size == 0) return *this;
+    if(this->m_capacity < this->m_size - n + str.m_size){
+        char* temp_char = new char[this->m_size + 1];
+        std::copy(m_char, m_char + m_size, temp_char);
+        delete[] m_char;
+        m_capacity = this->m_size - n + str.m_size + 1;
+        m_char = new char[m_capacity];
+        std::copy(temp_char, temp_char + pos, m_char);
+        std::copy(temp_char + pos + n, temp_char + this->m_size, this->m_char + pos + str.m_size);
+        delete[] temp_char;
+    }
+    std::copy(str.m_char, str.m_char + str.m_size, this->m_char + pos);
+    this->m_size = this->m_size - n + str.m_size;
+    this->m_char[this->m_size] = '\0';
+    return *this;
+}
+
+MyString& MyString::replace(int pos, int n, const char* s){
+    /**
+     * @brief 替换从pos开始的n个字符为字符串s
+     * @param int pos: 代替换源串的起始位置
+     * @param int n:代替换的字符个数
+     * @param const char* s: 代替换串
+     * @return MyString&
+     */
+    MyString replace_MyStr(s);
+    return replace(pos, n, replace_MyStr);
+}
+
 MyString::~MyString(){
     delete[] m_char;
 }
