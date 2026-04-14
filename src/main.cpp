@@ -77,6 +77,13 @@ void testMyString(){
     MyString str3_7("str3_7");
     char ch3_7[] = "_append_";
     cout << "3.7 char* 类型字符串拼接(append)：" << str3_7.append(ch3_5, 1, 7) << endl;
+
+    cout << "------------------------- 4.查找 -----------------------------" << endl;
+    // 查找str第一次出现位置，从pos开始查找
+    MyString str4_1("aabaabaaf");
+    MyString substr4_1("aabaaf");
+    int pos4_1 = 0;
+    cout << "4.1 查找" << str4_1 << "起始位置为：" << pos4_1 << "的子串" << substr4_1 << "的位置为：" << str4_1.find(substr4_1, pos4_1);
 }
 int main(){
     // 设置控制台输出为 UTF-8

@@ -61,6 +61,29 @@ public:
     // 将Mystring类型字符串从pos开始的n个字符连接到字符串结尾
     MyString& append(const MyString& str, int pos, int n);
 
+
+    // 查找 - 模式匹配
+    // KMP算法
+    int KMP(const MyString& str, int pos = 0) const;
+    // 获取前缀数组
+    void getPrefix(const MyString& str, int* prefix)const;
+    // 查找str第一次出现位置，从pos开始查找
+    int find(const MyString& str, int pos = 0) const;
+    // 查找s第一次出现位置，从pos开始查找
+    int find(const char* s, int pos = 0) const;
+    // 从pos位置查找s的前n个字符第一次位置
+    int find(const char* s, int pos, int n) const;
+    // 查找字符c第一次出现位置
+    int find(const char c, int pos = 0) const;
+    // 查找str最后一次位置，从pos开始查找
+    int rfind(const MyString& str, int pos) const;
+    // 查找s最后一次出现位置，从pos开始查找
+    int rfind(const char* s, int pos) const;
+    //从pos查找s的前n个字符最后一次位置
+    int rfind(const char* s, int pos, int n) const;
+    // 查找字符c最后一次出现位置
+    int rfind(const char c, int pos = 0) const;
+
     // 析构函数
     ~MyString();
 };

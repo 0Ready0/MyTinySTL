@@ -404,6 +404,83 @@ MyString& MyString::append(const MyString& str, int pos, int n){
     return *this;
 }
 
+// KMP算法
+int MyString::KMP(const MyString& str, int pos) const {
+    /**
+     * @brief KMP算法实现文本串和模式串的匹配
+     * @param const MyString& str 模式串
+     * @param int pos 带查找的文本串的起始位置
+     */
+    int prefix[str.m_size] = {0};
+    getPrefix(str, prefix);
+    int j = pos;  // 模式串指针
+    for(int i = pos + 1; i < this->m_size; ++i){
+        if(j == str.m_size - 1) return i - j;
+        if(this->m_char[i] != str.m_char[j]){
+            j = prefix[j - 1];
+        }
+        else ++j;
+    }
+    return -1; 
+}
+// 获取前缀数组
+void MyString::getPrefix(const MyString& str, int prefix[])const {
+    /**
+     * @brief 获取KMP算法的 前缀数组
+     * @param const MyString& str 模式串
+     * @param int* prefix 前缀数组（前缀和后缀相等的最大长度）
+     */
+    int j = 0;  // 前缀子串末尾 = prefix[i], 前缀数组 i位置 的值
+    int i = 1;  // 后缀子串末尾
+    for(; i < str.m_size; ++i){
+        // 前缀末尾 和 后缀末尾 不相等
+        while(j > 0 && str.m_char[j] != str.m_char[i]){   // 如果j大于0 && 前缀子串末尾 != 后缀子串末尾，则j进行回退
+            j = prefix[j - 1];
+        }
+        // 前缀末尾 和 后缀末尾 相等
+        if(str.m_char[j] == str.m_char[i]) j++;   // 如果 前缀末尾 == 后缀末尾，则j++; 
+                                    // 这里仅为一个if判断，个人理解为上面的while循环已经将j调到最佳匹配位置，由于进行了前缀数组的跳转
+        prefix[i] = j;
+    }
+}
+
+int MyString::find(const MyString& str, int pos) const{
+    /**
+     * @brief  查找Mystr在文本串第一次出现位置，从pos开始查找
+     * @param const Mystring& str 模式串
+     * @param int pos 起始位置
+     * @return int 返回查找位置，未找到返回-1
+     */
+    return KMP(str, pos);
+}
+// 查找s第一次出现位置，从pos开始查找
+int MyString::find(const char* s, int pos) const{
+    return -1;
+}
+// 从pos位置查找s的前n个字符第一次位置
+int MyString::find(const char* s, int pos, int n) const{
+    return -1;
+}
+// 查找字符c第一次出现位置
+int MyString::find(const char c, int pos) const{
+    return -1;
+}
+// 查找str最后一次位置，从pos开始查找
+int MyString::rfind(const MyString& str, int pos) const{
+    return -1;
+}
+// 查找s最后一次出现位置，从pos开始查找
+int MyString::rfind(const char* s, int pos) const{
+    return -1;
+}
+//从pos查找s的前n个字符最后一次位置
+int MyString::rfind(const char* s, int pos, int n) const{
+    return -1;
+}
+// 查找字符c最后一次出现位置
+int MyString::rfind(const char c, int pos) const{
+    return -1;
+}
 
 MyString::~MyString(){
     delete[] m_char;
