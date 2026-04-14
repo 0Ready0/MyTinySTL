@@ -68,8 +68,12 @@ public:
     // 查找 - 模式匹配
     // KMP算法
     int KMP(const MyString& str, int pos = 0) const;
+    // KMP算法, 从右侧开始
+    int RKMP(const MyString& str, int epos = 0) const;
     // 获取前缀数组
     void getPrefix(const MyString& str, int* prefix)const;
+    // 获取前缀数组, 从右侧开始
+    void getRPrefix(const MyString& str, int prefix[])const;
     // 查找str第一次出现位置，从pos开始查找
     int find(const MyString& str, int pos = 0) const;
     // 查找s第一次出现位置，从pos开始查找
@@ -77,7 +81,7 @@ public:
     // 从pos位置查找s的前n个字符第一次位置
     int find(const char* s, int pos, int n) const;
     // 查找字符c第一次出现位置
-    int find(const char c, int pos = 0) const;
+    int find(const char ch, int pos = 0) const;
     // 查找str最后一次位置，从pos开始查找
     int rfind(const MyString& str, int pos) const;
     // 查找s最后一次出现位置，从pos开始查找
@@ -85,8 +89,10 @@ public:
     //从pos查找s的前n个字符最后一次位置
     int rfind(const char* s, int pos, int n) const;
     // 查找字符c最后一次出现位置
-    int rfind(const char c, int pos = 0) const;
+    int rfind(const char ch, int pos = 0) const;
 
+    // 翻转
+    MyString reverse();
     // 析构函数
     ~MyString();
 };

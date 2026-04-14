@@ -443,6 +443,40 @@ int MyString::KMP(const MyString& str, int pos) const {
     }
     return -1; 
 }
+
+int MyString::RKMP(const MyString& str, int epos) const {
+    /**
+     * @brief KMP算法实现文本串和模式串的匹配, 从文本串的最右侧开始
+     * @param const MyString& str 模式串
+     * @param int epos 带查找的文本串的终止位置
+     */
+    // pos不合法
+    if(epos < 0 || epos >= this->m_size) return -1;
+    // str为空串
+    if(str.m_size == 0) return epos;
+
+    int* Rprefix = new int[str.m_size];
+    std::fill_n(Rprefix, str.m_size, str.m_size - 1);
+    getRPrefix(str, Rprefix);
+
+    int j = str.m_size - 1;   // 模式串指针
+    int i = this->m_size - 1;   // 文本串指针
+
+    while(i >= epos){
+        if(this->m_char[i] == str.m_char[j]){
+            --i, --j;
+            if(j == -1) {
+                delete[] Rprefix;
+                return i;
+            }
+        }
+        else if(j + 1 < str.m_size) j = Rprefix[j + 1];
+        else --i;
+    }
+    delete[] Rprefix;
+    return -1;
+}
+
 // 获取前缀数组
 void MyString::getPrefix(const MyString& str, int prefix[])const {
     /**
@@ -461,6 +495,23 @@ void MyString::getPrefix(const MyString& str, int prefix[])const {
         if(str.m_char[j] == str.m_char[i]) j++;   // 如果 前缀末尾 == 后缀末尾，则j++; 
                                     // 这里仅为一个if判断，个人理解为上面的while循环已经将j调到最佳匹配位置，由于进行了前缀数组的跳转
         prefix[i] = j;
+    }
+}
+
+void MyString::getRPrefix(const MyString& str, int prefix[])const{
+    /**
+     * @brief 获取KMP算法的 前缀数组,从str末尾开始计算
+     * @param const MyString& str 模式串
+     * @param int* prefix 前缀数组（前缀和后缀相等的最大长度）
+     */
+    int j = str.m_size - 1;
+    int i = j - 1;
+    for(; i >= 0; --i){
+        while(j + 1 < str.m_size && str.m_char[j] != str.m_char[i]){
+            j = prefix[j + 1];
+        }
+        if(str.m_char[j] == str.m_char[i]) --j;
+        prefix[i] = j; 
     }
 }
 
@@ -492,17 +543,42 @@ int MyString::find(const char* s, int pos, int n) const{
      * @param const char* s: char数组
      * @param int pos: 文本串查找起始位置
      * @param int n:   模式串带查找的前n个字符
+     * @return int 返回查找位置，失败返回-1
      */
     MyString patt(s, n);
     return KMP(patt, pos);
 }
-// 查找字符c第一次出现位置
-int MyString::find(const char c, int pos) const{
-    return -1;
+
+int MyString::find(const char ch, int pos) const{
+    /**
+     * @brief 查找字符c第一次出现位置
+     * @param const char ch: char数组
+     * @param int pos: 文本串查找起始位置
+     * @return int 返回查找位置，失败返回-1
+     */
+    MyString patt(1, ch);
+    return KMP(patt, pos);
 }
-// 查找str最后一次位置，从pos开始查找
+
+MyString MyString::reverse(){
+    /**
+     * @brief 将MyString字符串进行翻转
+     * @return int 返回查找位置，失败返回-1
+     */
+    MyString rev = *this;
+    for(int i = 0; i < this->m_size; ++i){
+        rev.m_char[this->m_size - i - 1] = this->m_char[i];
+    }
+    return rev;
+}
+
 int MyString::rfind(const MyString& str, int pos) const{
-    return -1;
+    /**
+     * @brief 查找str最后一次位置，从pos开始查找
+     * @param const char ch: char数组
+     * @param int pos: 文本串查找起始位置
+     */
+    return RKMP(str, pos);
 }
 // 查找s最后一次出现位置，从pos开始查找
 int MyString::rfind(const char* s, int pos) const{

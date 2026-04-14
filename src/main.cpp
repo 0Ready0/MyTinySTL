@@ -91,12 +91,24 @@ void testMyString(){
     int pos4_2 = 0;
     cout << "4.2 查找" << str4_2 << "起始位置为" << pos4_2 << "的子串" << substr4_2 << "的位置为：" << str4_2.find(substr4_2, pos4_2) << endl;
 
-    // 4.2 从pos位置查找s的前n个字符第一次位置
+    // 4.3 从pos位置查找s的前n个字符第一次位置
     MyString str4_3("aabaabaaf");
     char* substr4_3 = new char[]{"aafaaf"};
     int n4_3 = 3;
     int pos4_3 = 0;
     cout << "4.3 查找" << str4_3 << "起始位置为" << pos4_3 << "的子串" << substr4_3 << "的位置为：" << str4_3.find(substr4_3, pos4_3, n4_3) << endl;
+
+    // 4.4 查找字符c第一次出现位置
+    MyString str4_4("aabaabaaf");
+    char substr4_4 = 'g';
+    int pos4_4 = 0;
+    cout << "4.4 查找" << str4_4 << "起始位置为" << pos4_4 << "的子串" << substr4_4 << "的位置为：" << str4_4.find(substr4_4, pos4_4) << endl;
+
+    // 4.5查找str最后一次位置，从pos开始查找
+    MyString str4_5("aabaabaaf");
+    MyString substr4_5("aabaab");
+    int pos4_5 = 0;
+    cout << "4.5 查找" << str4_5 << "起始位置为" << pos4_5 << "的子串" << substr4_5 << "最后一次出现的位置为：" << str4_5.rfind(substr4_5, pos4_5) << endl;
 }
 int main(){
     // 设置控制台输出为 UTF-8
