@@ -90,6 +90,13 @@ void testMyString(){
     char* substr4_2 = new char[]{"aabaaf"};
     int pos4_2 = 0;
     cout << "4.2 查找" << str4_2 << "起始位置为" << pos4_2 << "的子串" << substr4_2 << "的位置为：" << str4_2.find(substr4_2, pos4_2) << endl;
+
+    // 4.2 从pos位置查找s的前n个字符第一次位置
+    MyString str4_3("aabaabaaf");
+    char* substr4_3 = new char[]{"aafaaf"};
+    int n4_3 = 3;
+    int pos4_3 = 0;
+    cout << "4.3 查找" << str4_3 << "起始位置为" << pos4_3 << "的子串" << substr4_3 << "的位置为：" << str4_3.find(substr4_3, pos4_3, n4_3) << endl;
 }
 int main(){
     // 设置控制台输出为 UTF-8

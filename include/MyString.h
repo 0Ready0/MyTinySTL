@@ -25,10 +25,13 @@ public:
     MyString();
     // 从C字符串构造函数
     MyString(const char* str);
+    // 使用char*的前n个字符进行初始化
+    MyString(const char* str, int n);
     // 拷贝构造
     MyString(const MyString& other);
     // 使用n个字符ch初始化
     MyString(int n, const char& ch);
+
 
     // 赋值运算符
     MyString& operator=(const MyString& str);

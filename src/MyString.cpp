@@ -18,6 +18,17 @@ MyString::MyString(const char* str){
     m_char[m_size] = '\0';
 }
 
+MyString::MyString(const char* str, int n){
+    if(str == nullptr) std::invalid_argument("str is null");
+    if(n < 0) std::invalid_argument("n is negative number");
+    m_size = n;
+    m_capacity = m_size + 1;
+    m_char = new char[m_capacity];
+    for(int i = 0; i < m_size; ++i){
+        m_char[i] = str[i];
+    }
+    m_char[m_size] = '\0';
+}
 MyString::MyString(const MyString& other){
     m_size = other.m_size;
     m_capacity = other.m_capacity;
@@ -474,9 +485,16 @@ int MyString::find(const char* s, int pos) const{
     MyString patt(s);
     return KMP(patt, pos);
 }
-// 从pos位置查找s的前n个字符第一次位置
+
 int MyString::find(const char* s, int pos, int n) const{
-    return -1;
+    /**
+     * @brief 从pos位置查找s的前n个字符第一次位置
+     * @param const char* s: char数组
+     * @param int pos: 文本串查找起始位置
+     * @param int n:   模式串带查找的前n个字符
+     */
+    MyString patt(s, n);
+    return KMP(patt, pos);
 }
 // 查找字符c第一次出现位置
 int MyString::find(const char c, int pos) const{
