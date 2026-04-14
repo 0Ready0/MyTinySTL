@@ -411,15 +411,24 @@ int MyString::KMP(const MyString& str, int pos) const {
      * @param const MyString& str 模式串
      * @param int pos 带查找的文本串的起始位置
      */
+    // pos不合法
+    if(pos < 0 || pos >= this->m_size) return -1;
+    // str为空串
+    if(str.m_size == 0) return pos;
+
     int prefix[str.m_size] = {0};
     getPrefix(str, prefix);
-    int j = pos;  // 模式串指针
-    for(int i = pos + 1; i < this->m_size; ++i){
-        if(j == str.m_size - 1) return i - j;
-        if(this->m_char[i] != str.m_char[j]){
-            j = prefix[j - 1];
+    int i = pos; // 文本串指针
+    int j = 0;  // 模式串指针
+    while(i < this->m_size){
+        if(this->m_char[i] == str.m_char[j]){   // 模式串指针和文本串指针匹配
+            ++i, ++j;                           // 继续匹配
+            if(j == str.m_size){                // 查找完毕
+                return i - j;
+            }
         }
-        else ++j;
+        else if(j > 0) j = prefix[j - 1];       // 防止 j = 0时, 没有匹配回溯前缀数组 越界
+        else ++i;                               // j = 0时, 不匹配, 只能移动文本指针
     }
     return -1; 
 }
@@ -453,9 +462,17 @@ int MyString::find(const MyString& str, int pos) const{
      */
     return KMP(str, pos);
 }
-// 查找s第一次出现位置，从pos开始查找
+
 int MyString::find(const char* s, int pos) const{
-    return -1;
+    /**
+     * @brief 查找const char*第一次出现位置，从pos开始查找
+     * @param const char* s, char数组
+     * @param pos  文本串的起始位置
+     * @return int 返回查找位置，失败返回-1
+     */
+
+    MyString patt(s);
+    return KMP(patt, pos);
 }
 // 从pos位置查找s的前n个字符第一次位置
 int MyString::find(const char* s, int pos, int n) const{
