@@ -143,6 +143,15 @@ void testMyString(){
     int pos5_2 = 3;
     int n5_2 = 3;
     cout << "5.2 替换 将" << str5_2 << "起始于"<< pos5_2 << "的" << n5_2 << "字符，替换为" << substr5_2 <<"得到：" << str5_2.replace(pos5_2, n5_2, substr5_2) << endl;
+
+    cout << "------------------------- 6.比较 -----------------------------" << endl;
+    MyString str6_1("abcdefg");
+    MyString substr6_1("bcdefg");
+    cout << "6.1 比较 字符串" << str6_1 << "与字符串" << substr6_1 << "比较大小为:" << str6_1.compare(substr6_1) << endl;
+    
+    MyString str6_2("abcdefg");
+    char* substr6_2 = new char[]{"abcdefg"};
+    cout << "6.2 比较 字符串" << str6_2 << "与字符串" << substr6_2 << "比较大小为:" << str6_2.compare(substr6_2) << endl;
 }
 int main(){
     // 设置控制台输出为 UTF-8

@@ -630,7 +630,7 @@ MyString& MyString::replace(int pos, int n, const MyString& str){
     size_t new_size = this->m_size - n + str.m_size;
     if(this->m_capacity < new_size){
         // 更新空间大小, 取(旧容量 * 2) 和 (新容量 + 1) 的最大值
-        size_t new_cap = max(this->m_capacity * 2, new_size + 1);
+        size_t new_cap = std::max(this->m_capacity * 2, new_size + 1);
         char* new_char = new char[new_cap];
 
         // 分段拷贝: 前缀 + 替换串 + 后缀
@@ -647,7 +647,7 @@ MyString& MyString::replace(int pos, int n, const MyString& str){
         // 处理后缀,向后移动
         // 如果需要替换的数据str的长度 与 n 不一样大, 则将 后缀进行前移或后移
         if(str.m_size != size_t(n)){
-            memmove(this->m_char + pos + str.m_size, this->m_char + pos + n, this->size - (pos + n));
+            memmove(this->m_char + pos + str.m_size, this->m_char + pos + n, this->m_size - (pos + n));
         }
         // 处理替换串
         if(str.m_size > 0){
@@ -671,6 +671,40 @@ MyString& MyString::replace(int pos, int n, const char* s){
     return replace(pos, n, replace_MyStr);
 }
 
+
+
+
+int MyString::compare(const MyString &str) const{
+    /**
+     * @brief 与字符串str比较
+     * @param const MyString &str: 待比较字符串
+     * @return int: 返回数值为 >:1; =:0; <:-1
+     */
+
+    // 1. 比较公共长度部分的字符
+    int len = std::min(this->m_size, str.m_size);
+    for (int i = 0; i < len; ++i) {
+        if (this->m_char[i] > str.m_char[i]) return 1;
+        if (this->m_char[i] < str.m_char[i]) return -1;
+    }
+
+    // 2. 公共部分全部相同，则比较长度
+    if (this->m_size > str.m_size) return 1;
+    if (this->m_size < str.m_size) return -1;
+
+    // 3. 长度也相等
+    return 0;
+} 
+//与字符串s比较
+int MyString::compare(const char *str) const{
+    /**
+     * @brief 与字符串str比较
+     * @param const MyString &str: 待比较字符串
+     * @return int: 返回数值为 >:1; =:0; <:-1
+     */
+    MyString compMyStr(str);
+    return compare(compMyStr);
+}
 MyString::~MyString(){
     delete[] m_char;
 }

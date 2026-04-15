@@ -100,6 +100,11 @@ public:
     // 替换从pos开始的n个字符为字符串s
     MyString& replace(int pos, int n, const char* s); 
 
+    // 比较
+    // 与字符串str比较
+    int compare(const MyString &str) const; 
+    //与字符串str比较
+    int compare(const char *str) const; 
     // 析构函数
     ~MyString();
 };
