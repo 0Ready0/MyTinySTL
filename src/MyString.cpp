@@ -625,20 +625,36 @@ MyString& MyString::replace(int pos, int n, const MyString& str){
      * @param const MyString& str: 代替换串
      * @return MyString&
      */
-    if(pos < 0 || n > str.m_size) std::invalid_argument("parameter pos and n is error");
+    if(pos < 0 || pos > m_size || pos + n > this->m_size) std::invalid_argument("parameter pos and n is error");
     if(str.m_size == 0) return *this;
-    if(this->m_capacity < this->m_size - n + str.m_size){
-        char* temp_char = new char[this->m_size + 1];
-        std::copy(m_char, m_char + m_size, temp_char);
+    size_t new_size = this->m_size - n + str.m_size;
+    if(this->m_capacity < new_size){
+        // 更新空间大小, 取(旧容量 * 2) 和 (新容量 + 1) 的最大值
+        size_t new_cap = max(this->m_capacity * 2, new_size + 1);
+        char* new_char = new char[new_cap];
+
+        // 分段拷贝: 前缀 + 替换串 + 后缀
+        if(pos > 0) std::copy(this->m_char, this->m_char + pos, new_char);
+        if(str.m_size > 0) std::copy(str.m_char, str.m_char + str.m_size, new_char + pos);
+        std::copy(this->m_char + pos + n, this->m_char + this->m_size, new_char + pos + str.m_size);
+
         delete[] m_char;
-        m_capacity = this->m_size - n + str.m_size + 1;
-        m_char = new char[m_capacity];
-        std::copy(temp_char, temp_char + pos, m_char);
-        std::copy(temp_char + pos + n, temp_char + this->m_size, this->m_char + pos + str.m_size);
-        delete[] temp_char;
+        m_char = new_char;
+        m_capacity = new_cap;
     }
-    std::copy(str.m_char, str.m_char + str.m_size, this->m_char + pos);
-    this->m_size = this->m_size - n + str.m_size;
+    else{
+        // 容量足够时,原地移动
+        // 处理后缀,向后移动
+        // 如果需要替换的数据str的长度 与 n 不一样大, 则将 后缀进行前移或后移
+        if(str.m_size != size_t(n)){
+            memmove(this->m_char + pos + str.m_size, this->m_char + pos + n, this->size - (pos + n));
+        }
+        // 处理替换串
+        if(str.m_size > 0){
+            memcpy(this->m_char + pos, str.m_char, str.m_size);
+        }
+    }
+    this->m_size = new_size;
     this->m_char[this->m_size] = '\0';
     return *this;
 }
