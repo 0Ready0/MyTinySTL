@@ -1,6 +1,7 @@
 #include <cstring>   // 确保 strlen 等可用
 #include <algorithm>
 #include <stdexcept>
+#include <cassert>
 #include "MyString.h"
 
 MyString::MyString(){
@@ -625,7 +626,7 @@ MyString& MyString::replace(int pos, int n, const MyString& str){
      * @param const MyString& str: 代替换串
      * @return MyString&
      */
-    if(pos < 0 || pos > m_size || pos + n > this->m_size) std::invalid_argument("parameter pos and n is error");
+    if(pos < 0 || pos > m_size) std::invalid_argument("parameter pos and n is error");
     if(str.m_size == 0) return *this;
     size_t new_size = this->m_size - n + str.m_size;
     if(this->m_capacity < new_size){
@@ -695,7 +696,7 @@ int MyString::compare(const MyString &str) const{
     // 3. 长度也相等
     return 0;
 } 
-//与字符串s比较
+
 int MyString::compare(const char *str) const{
     /**
      * @brief 与字符串str比较
@@ -704,6 +705,142 @@ int MyString::compare(const char *str) const{
      */
     MyString compMyStr(str);
     return compare(compMyStr);
+}
+
+
+char& MyString::operator[](int n){
+    /**
+     * @brief 通过[]方式取字符
+     * @param int n：索引
+     * @return char&
+     */
+    // 断言，防止越界访问导致崩溃
+    assert(n >= 0 && n < m_size);
+    return this->m_char[n];
+}
+
+const char& MyString::operator[](int n) const{
+    /**
+     * @brief 通过[]方式取字符, 适用于 const MyString 对象
+     * @param int n：索引
+     * @return char&
+     */
+    assert(n >= 0 && n < m_size);
+    return this->m_char[n];
+}
+
+char& MyString::at(int n){
+    /**
+     * @brief 通过at方法获取字符
+     * @param int n：索引
+     * @return char&
+     */
+    assert(n >= 0 && n < m_size);
+    return this->m_char[n];
+}
+
+const char& MyString::at(int n) const {
+    /**
+     * @brief 通过at方法获取字符, 适用于 const MyString 对象
+     * @param int n：索引
+     * @return char&
+     */
+    assert(n >= 0 && n < m_size);
+    return this->m_char[n];
+}
+
+
+
+MyString& MyString::insert(int pos, const char* str){
+    /**
+     * @brief 插入字符串
+     * @param int pos：插入字符串的位置
+     * @param const char* str: 待插入的字符串
+     * @return MyString&
+     */    
+    MyString insert_string(str);
+    insert(pos, insert_string);
+    return *this;
+
+}
+
+MyString& MyString::insert(int pos, const MyString& str){
+    /**
+     * @brief 插入字符串
+     * @param int pos：插入字符串的位置
+     * @param const MyString& str: 待插入的字符串
+     * @return MyString&
+     */
+
+    if(pos < 0 || str.m_size == 0) std::invalid_argument("insert: this is an invalid parameter");
+    size_t str_len = str.m_size;
+    // 扩容检测
+    if(this->m_size + str_len > this->m_capacity){
+        size_t new_cap = std::max(this->m_size + str_len + 1, this->m_capacity * 2);
+        char* new_char = new char[new_cap];
+        std::copy(this->m_char, this->m_char + pos, new_char);
+        std::copy(str.m_char, str.m_char + str_len, new_char + pos);
+        std::copy(this->m_char + pos, this->m_char + this->m_size, new_char + pos + str_len);
+        delete[] this->m_char;
+        this->m_char = new_char;
+        this->m_capacity = new_cap;
+    }
+    else{
+        if(pos != this->m_size) memmove(this->m_char + this->m_size, this->m_char + pos, this->m_size - pos);
+        std::copy(str.m_char, str.m_char + str_len, this->m_char + pos);
+    }
+    this->m_size = this->m_size + str_len;
+    this->m_char[this->m_size] = '\0';
+    return *this;
+}
+
+MyString& MyString::insert(int pos, int n, char ch){
+    /**
+     * @brief 在指定位置插入n个字符ch 
+     * @param int pos：插入字符串的位置
+     * @param int n: 插入 n 个
+     * @param char ch: 待插入的字符
+     * @return MyString&
+     */     
+    MyString insert_string(n, ch);
+    insert(pos, insert_string);
+    return *this;
+}
+
+MyString& MyString::erase(int pos, int n){
+    /**
+     * @brief 删除从pos开始的n个字符 
+     * @param int pos：待删除字符的起始位置
+     * @param int n: 删除 n 个字符
+     * @return MyString&
+     */     
+    if(pos < 0 || n < 0) std::invalid_argument("erase: the parameter is invalid");
+    if(pos > this->m_size) std::invalid_argument("erase: the parameter is invalid");
+    if(pos + n > this->m_size) n = this->m_size - pos;
+    memmove(this->m_char + pos, this->m_char + pos + n, this->m_size - pos - n);
+    this->m_size = this->m_size - n;
+    this->m_char[this->m_size] = '\0';
+    return *this;
+} 
+
+MyString MyString::substr(int pos, int n) const{
+    /**
+     * @brief 返回由pos开始的n个字符组成的字符串
+     * @param int pos：子串起始位置
+     * @param int n: 起始的n个字符
+     * @return MyString&
+     */     
+    if(pos < 0 || n < 0) std::invalid_argument("erase: the parameter is invalid");
+    if(pos > this->m_size) std::invalid_argument("erase: the parameter is invalid");
+    if(pos + n > this->m_size) n = this->m_size - pos;
+
+    MyString subStr;
+    subStr.m_capacity = n + 1;
+    subStr.m_char = new char[subStr.m_capacity];
+    std::copy(this->m_char + pos, this->m_char + pos + n, subStr.m_char); 
+    subStr.m_size = n;
+    subStr.m_char[subStr.m_size] = '\0';
+    return subStr;  
 }
 MyString::~MyString(){
     delete[] m_char;

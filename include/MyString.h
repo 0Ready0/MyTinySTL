@@ -105,6 +105,30 @@ public:
     int compare(const MyString &str) const; 
     //与字符串str比较
     int compare(const char *str) const; 
+
+    // 字符存取
+    // 通过[]方式取字符
+    char& operator[](int n); 
+    // 用于 const MyString对象通过[]方式取字符
+    const char& operator[](int n) const;
+    // 通过at方法获取字符
+    char& at(int n); 
+    // 用于 const MyString对象通过at方法获取字符
+    const char& at(int n) const;
+
+    // 插入和删除
+    // 插入字符串
+    MyString& insert(int pos, const char* str); 
+    // 插入字符串
+    MyString& insert(int pos, const MyString& str);
+    // 在指定位置插入n个字符c 
+    MyString& insert(int pos, int n, char ch);
+    // 删除从pos开始的n个字符 
+    MyString& erase(int pos, int n); 
+
+    // 子串
+    // 返回由pos开始的n个字符组成的字符串
+    MyString substr(int pos, int n) const; 
     // 析构函数
     ~MyString();
 };

@@ -152,6 +152,47 @@ void testMyString(){
     MyString str6_2("abcdefg");
     char* substr6_2 = new char[]{"abcdefg"};
     cout << "6.2 比较 字符串" << str6_2 << "与字符串" << substr6_2 << "比较大小为:" << str6_2.compare(substr6_2) << endl;
+
+    cout << "------------------------- 7.索引存取 -----------------------------" << endl;
+    // 通过[]取值
+    MyString str7_1("abcdefg");
+    cout << "7.1 索引取值 " << "str7_1[5] = " << str7_1[5] << endl; 
+    
+    MyString str7_2("abcdefg");
+    cout << "7.2 索引取值 " << "str7_2[5] = " << str7_2[5] << endl; 
+    
+    cout << "------------------------- 8.插入操作 -----------------------------" << endl;
+    // 8.1 插入字符串char*
+    MyString str8_1("123456");
+    char* ch8_1 = new char[]{"789"};
+    size_t pos8_1 = 3;
+    cout << "8.1 插入 字符串" << str8_1 << "在位置" << pos8_1 << "处插入字符串" << ch8_1 << "得: " << str8_1.insert(pos8_1, ch8_1) << endl;
+
+    // 8.2 插入字符串 MyString
+    MyString str8_2("123456");
+    MyString substr8_2("789");
+    size_t pos8_2 = 3;
+    cout << "8.2 插入 字符串" << str8_2 << "在位置" << pos8_2 << "处插入字符串" << substr8_2 << "得: " << str8_2.insert(pos8_1, substr8_2) << endl;
+
+    // 8.3 插入n个字符
+    MyString str8_3("123456");
+    char ch8_3 = '9';
+    size_t n8_3 = 3;
+    size_t pos8_3 = 3;
+    cout << "8.2 插入 字符串" << str8_3 << "在位置" << pos8_3 << "处插入" << n8_3 <<  "个字符" << ch8_3 << "得: " << str8_3.insert(pos8_3, n8_3, ch8_3) << endl;
+
+    // 8.4 删除pos起的n个字符
+    MyString str8_4("123456");
+    size_t pos8_4 = 3;
+    size_t n8_4 = 2;
+    cout << "8.4 删除 字符串" << str8_4 << "在位置" << pos8_4 << "处删除" << n8_4 <<  "个字符得: " << str8_4.erase(pos8_4, n8_4) << endl;
+
+    cout << "------------------------- 9.子串 -----------------------------" << endl;
+    // 9.1 插入字符串char*
+    MyString str9_1("123456");
+    size_t pos9_1 = 3;
+    size_t n9_1 = 3;
+    cout << "9.1 子串 字符串" << str9_1 << "在位置" << pos9_1 << "处的" << n9_1 <<  "个字符为: " << str9_1.substr(pos9_1, n9_1) << endl;
 }
 int main(){
     // 设置控制台输出为 UTF-8
