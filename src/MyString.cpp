@@ -12,6 +12,7 @@ MyString::MyString(){
 }
 
 MyString::MyString(const char* str){
+    if(str == nullptr) throw std::invalid_argument("MyString::MyString: str is nullptr");
     m_size = std::strlen(str);
     m_capacity = m_size + 1;
     m_char = new char[m_capacity];
@@ -20,8 +21,8 @@ MyString::MyString(const char* str){
 }
 
 MyString::MyString(const char* str, int n){
-    if(str == nullptr) std::invalid_argument("str is null");
-    if(n < 0) std::invalid_argument("n is negative number");
+    if(str == nullptr) throw std::invalid_argument("str is null");
+    if(n < 0) throw std::invalid_argument("n is negative number");
     m_size = n;
     m_capacity = m_size + 1;
     m_char = new char[m_capacity];
@@ -124,7 +125,7 @@ MyString& MyString::operator= (const char ch){
         m_char[0] = '\0';
     }else{
         if(m_capacity < 1){
-            delete m_char;
+            delete[] m_char;
             m_capacity = 2;
             m_char = new char[2];
         }
@@ -224,6 +225,7 @@ MyString& MyString::assign(const char* str, int n){
     // 如果 n >= 字符串长度，复制整个字符串
     if(copy_len > str_len){
         MyString::assign(str);
+        return *this;
     }
     // 判断空间是否充足
     if(m_capacity < n){
@@ -263,7 +265,7 @@ MyString& MyString::assign(int n,char ch){
     }
 }
 
-MyString& MyString::operator+(const char* s){
+MyString& MyString::operator+=(const char* s){
     /**
      * @brief 将char*字符串与当前字符串拼接
      * 
@@ -289,7 +291,7 @@ MyString& MyString::operator+(const char* s){
     return *this;
 }
 
-MyString& MyString::operator+(const char ch){
+MyString& MyString::operator+=(const char ch){
     /**
      * @brief 将char 单字符 与当前字符串拼接
      * 
@@ -315,7 +317,7 @@ MyString& MyString::operator+(const char ch){
     return *this;
 }
 
-MyString& MyString::operator+(const MyString& str){
+MyString& MyString::operator+=(const MyString& str){
     /**
      * @brief 将char*字符串与当前字符串拼接
      * 
@@ -341,7 +343,42 @@ MyString& MyString::operator+(const MyString& str){
     return *this;
 }
 
+MyString& MyString::operator+(const char* s){
+    /**
+     * @brief 将char*字符串与当前字符串拼接
+     * 
+     * @param const char* s
+     * @return MyString& 
+     */
+    MyString res = *this;
+    res += s; // 复用 += 的逻辑
+    return res;
+}
 
+// 将char 字符与当前字符串拼接
+MyString& operator+(const char ch){
+    /**
+     * @brief 将char 单字符 与当前字符串拼接
+     * 
+     * @param const char ch
+     * @return MyString& 
+     */
+    MyString res = *this;
+    res += ch; // 复用 += 的逻辑
+    return res;
+}
+// 将Mystring 类型字符串与当前字符串拼接
+MyString& operator+(const MyString& str){
+    /**
+     * @brief 将char*字符串与当前字符串拼接
+     * 
+     * @param const MyString& str
+     * @return MyString& 
+     */
+    MyString res = *this;
+    res += str; // 复用 += 的逻辑
+    return res;
+}
 
 MyString& MyString::append(const char* s){
     /**
@@ -428,7 +465,8 @@ int MyString::KMP(const MyString& str, int pos) const {
     // str为空串
     if(str.m_size == 0) return pos;
 
-    int prefix[str.m_size] = {0};
+    int* prefix = new int[str.m_size];
+    std::fill_n(prefix, str.m_size, str.m_size - 1);
     getPrefix(str, prefix);
     int i = pos; // 文本串指针
     int j = 0;  // 模式串指针
@@ -626,7 +664,7 @@ MyString& MyString::replace(int pos, int n, const MyString& str){
      * @param const MyString& str: 代替换串
      * @return MyString&
      */
-    if(pos < 0 || pos > m_size) std::invalid_argument("parameter pos and n is error");
+    if(pos < 0 || pos > m_size) throw std::invalid_argument("parameter pos and n is error");
     if(str.m_size == 0) return *this;
     size_t new_size = this->m_size - n + str.m_size;
     if(this->m_capacity < new_size){
@@ -772,7 +810,7 @@ MyString& MyString::insert(int pos, const MyString& str){
      * @return MyString&
      */
 
-    if(pos < 0 || str.m_size == 0) std::invalid_argument("insert: this is an invalid parameter");
+    if(pos < 0 || str.m_size == 0) throw std::invalid_argument("insert: this is an invalid parameter");
     size_t str_len = str.m_size;
     // 扩容检测
     if(this->m_size + str_len > this->m_capacity){
@@ -786,7 +824,7 @@ MyString& MyString::insert(int pos, const MyString& str){
         this->m_capacity = new_cap;
     }
     else{
-        if(pos != this->m_size) memmove(this->m_char + this->m_size, this->m_char + pos, this->m_size - pos);
+        if(pos != this->m_size) memmove(this->m_char + pos + str_len, this->m_char + pos, this->m_size - pos);
         std::copy(str.m_char, str.m_char + str_len, this->m_char + pos);
     }
     this->m_size = this->m_size + str_len;
@@ -814,8 +852,8 @@ MyString& MyString::erase(int pos, int n){
      * @param int n: 删除 n 个字符
      * @return MyString&
      */     
-    if(pos < 0 || n < 0) std::invalid_argument("erase: the parameter is invalid");
-    if(pos > this->m_size) std::invalid_argument("erase: the parameter is invalid");
+    if(pos < 0 || n < 0) throw std::invalid_argument("erase: the parameter is invalid");
+    if(pos > this->m_size) throw std::invalid_argument("erase: the parameter is invalid");
     if(pos + n > this->m_size) n = this->m_size - pos;
     memmove(this->m_char + pos, this->m_char + pos + n, this->m_size - pos - n);
     this->m_size = this->m_size - n;
@@ -830,8 +868,8 @@ MyString MyString::substr(int pos, int n) const{
      * @param int n: 起始的n个字符
      * @return MyString&
      */     
-    if(pos < 0 || n < 0) std::invalid_argument("erase: the parameter is invalid");
-    if(pos > this->m_size) std::invalid_argument("erase: the parameter is invalid");
+    if(pos < 0 || n < 0) throw std::invalid_argument("erase: the parameter is invalid");
+    if(pos > this->m_size) throw std::invalid_argument("erase: the parameter is invalid");
     if(pos + n > this->m_size) n = this->m_size - pos;
 
     MyString subStr;

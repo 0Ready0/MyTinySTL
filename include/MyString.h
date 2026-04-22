@@ -50,11 +50,19 @@ public:
 
     // 拼接操作
     // 将char*类型字符串与当前字符串拼接
+    MyString& operator+=(const char* s);
+    // 将char 字符与当前字符串拼接
+    MyString& operator+=(const char ch);
+    // 将Mystring 类型字符串与当前字符串拼接
+    MyString& operator+=(const MyString& str);
+
+    // 将char*类型字符串与当前字符串拼接
     MyString& operator+(const char* s);
     // 将char 字符与当前字符串拼接
     MyString& operator+(const char ch);
     // 将Mystring 类型字符串与当前字符串拼接
     MyString& operator+(const MyString& str);
+
     // 将char*类型字符串与当前字符串拼接
     MyString& append(const char* s);
     // 将char*类型字符串的前n个字符连接到当前字符串结尾
